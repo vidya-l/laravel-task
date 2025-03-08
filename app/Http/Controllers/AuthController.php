@@ -18,18 +18,17 @@ class AuthController extends Controller
      */
     public function register(Request $request): JsonResponse
     {
-        // Validation rules
-        $validator = Validator::make($request->all(), [
-            'first_name' => 'required|string',
-            'last_name' => 'required|string',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|confirmed',
-        ]);
-        if ($validator->fails()) {
-            return ApiResponse::validationError($validator, 400);
-        }
-
         try {
+            // Validation rules
+            $validator = Validator::make($request->all(), [
+                'first_name' => 'required|string',
+                'last_name' => 'required|string',
+                'email' => 'required|email|unique:users,email',
+                'password' => 'required|string|confirmed',
+            ]);
+            if ($validator->fails()) {
+                return ApiResponse::validationError($validator, 400);
+            }
             $user = User::create([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
@@ -52,17 +51,16 @@ class AuthController extends Controller
      */
     public function login(Request $request): JsonResponse
     {
-        // Validation rules
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'password' => 'required|string',
-        ]);
-
-        if ($validator->fails()) {
-            return ApiResponse::validationError($validator, 400);
-        }
-
         try {
+            // Validation rules
+            $validator = Validator::make($request->all(), [
+                'email' => 'required|email',
+                'password' => 'required|string',
+            ]);
+
+            if ($validator->fails()) {
+                return ApiResponse::validationError($validator, 400);
+            }
             $user = User::where('email', $request->email)->first();
             if (!$user || !Hash::check($request->password, $user->password)) {
                 return ApiResponse::error('Unauthorized', 401);

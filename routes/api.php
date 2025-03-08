@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\AttributeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,5 +27,21 @@ Route::prefix('user')->middleware('auth:api')->group(function () {
     Route::get('/', [UserController::class, 'getAllUsers']);
     Route::get('/{id}', [UserController::class, 'getUserDetail']);
     Route::put('/{id}', [UserController::class, 'updateUser']);
-    Route::delete('/{id}', [UserController::class, 'deleteUser'])->name('user.destroy');
+    Route::delete('/{id}', [UserController::class, 'deleteUser']);
+});
+
+Route::prefix('project')->middleware('auth:api')->group(function () {
+    Route::get('/', [ProjectController::class, 'index']);
+    Route::post('/', [ProjectController::class, 'create']);
+    Route::get('/{project}', [ProjectController::class, 'getProjectDetail']);
+    Route::put('/{project}', [ProjectController::class, 'update']);
+    Route::delete('/{project}', [ProjectController::class, 'delete']);
+});
+
+Route::prefix('attribute')->middleware('auth:api')->group(function () {
+    Route::get('/', [AttributeController::class, 'index']);
+    Route::post('/', [AttributeController::class, 'create']);
+    Route::get('/{attribute}', [AttributeController::class, 'getAttributeDetail']);
+    Route::put('/{attribute}', [AttributeController::class, 'update']);
+    Route::delete('/{attribute}', [AttributeController::class, 'delete']);
 });
