@@ -1,6 +1,4 @@
 <?php
-// app/Http/Controllers/AttributeController.php
-
 namespace App\Http\Controllers;
 
 use App\Models\Attribute;

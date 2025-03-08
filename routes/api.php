@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\AttributeController;
+use App\Http\Controllers\TimesheetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,4 +45,12 @@ Route::prefix('attribute')->middleware('auth:api')->group(function () {
     Route::get('/{attribute}', [AttributeController::class, 'getAttributeDetail']);
     Route::put('/{attribute}', [AttributeController::class, 'update']);
     Route::delete('/{attribute}', [AttributeController::class, 'delete']);
+});
+
+Route::prefix('timesheet')->middleware('auth:api')->group(function () {
+    Route::get('/', [TimesheetController::class, 'index']);
+    Route::post('/', [TimesheetController::class, 'create']);
+    Route::get('/{timesheet}', [TimesheetController::class, 'getTimesheetDetail']);
+    Route::put('/{timesheet}', [TimesheetController::class, 'update']);
+    Route::delete('/{timesheet}', [TimesheetController::class, 'delete']);
 });
