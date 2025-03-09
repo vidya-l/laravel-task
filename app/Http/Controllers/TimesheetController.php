@@ -126,7 +126,7 @@ class TimesheetController extends Controller
                 return ApiResponse::error('Not authorized', 400);
             }
             $timesheet->delete();
-            return ApiResponse::success($timesheet, 'Timesheet deleted successfully');
+            return ApiResponse::success([], 'Timesheet deleted successfully');
         } catch (\Exception $e) {
             return ApiResponse::error('An error occurred during project: ' . $e->getMessage(), 500);
         }

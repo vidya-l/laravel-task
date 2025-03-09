@@ -107,7 +107,7 @@ class AttributeController extends Controller
     {
         try {
             $attribute->delete();
-            return ApiResponse::success($attribute, 'Attribute deleted successfully');
+            return ApiResponse::success([], 'Attribute deleted successfully');
         } catch (\Exception $e) {
             return ApiResponse::error('An error occurred during project: ' . $e->getMessage(), 500);
         }

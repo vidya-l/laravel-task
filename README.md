@@ -1,70 +1,449 @@
-<<<<<<< HEAD
-# laravel-task
-=======
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Requirements
+PHP >= 7.4
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Laravel >= 8.x
 
-## About Laravel
+Composer
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+MySQL 
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+# Installation
+1. Clone the repository
+git clone https://github.com/vidya-l/laravel-task.git
+cd laravel-task
+2. Install dependencies
+Install the necessary project dependencies using Composer:
+composer install
+3. Set up the environment file
+Copy the example environment file and update the configuration settings for your local environment:
+cp .env.example .env
+Edit the .env file with your database and other environment configurations:
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=your_database_name
+DB_USERNAME=your_database_username
+DB_PASSWORD=your_database_password
+PASSPORT_CLIENT_ID=your_client_id
+PASSPORT_CLIENT_SECRET=your_client_secret
+4. Generate the application key
+Generate the Laravel application key:
+php artisan key:generate
+5. Migrate the database
+php artisan migrate --seed
+6. php artisan passport:install
+7. Add the PASSPORT_CLIENT_ID and PASSPORT_CLIENT_SECRET you received from php artisan passport:install into the .env file.
+8. Run the local server - php artisan serve
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Authentication Endpoints
+1. POST /api/register - Register a new user
+Request body:
 
-## Learning Laravel
+json
+{
+    "first_name": "vidya",
+    "last_name": "vidya",
+    "email": "vidya2@yopmail.com",
+    "password": "vidya",
+    "password_confirmation": "vidya"
+}
+Response:
+{
+    "success": true,
+    "message": "User registered successfully",
+    "data": {
+        "first_name": "vidya",
+        "last_name": "vidya",
+        "email": "vidya2@yopmail.com",
+        "updated_at": "2025-03-08T18:45:46.000000Z",
+        "created_at": "2025-03-08T18:45:46.000000Z",
+        "id": 2
+    }
+}
+2. POST /api/login - Login a user and return a token
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Request body:
+{
+    "email": "vidya2@yopmail.com",
+    "password": "vidya"
+}
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Response:
+{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "id": 2,
+        "email": "vidya2@yopmail.com",
+        "email_verified_at": null,
+        "created_at": "2025-03-08T18:45:46.000000Z",
+        "updated_at": "2025-03-08T18:45:46.000000Z",
+        "first_name": "vidya",
+        "last_name": "vidya",
+        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMTdkYzg3NjgzOGIwYWZhN2M1N2E2ODNhMTM3ODA0ZmFjYzQ2MjAzOWNlZmMyMWUwNjhhNWVmMTk4Mzk3NjA1NGQxYmRlYjk5NzgwZGY5OGYiLCJpYXQiOjE3NDE0NTk1ODMuMjk0OTgxLCJuYmYiOjE3NDE0NTk1ODMuMjk0OTg5LCJleHAiOjE3NzI5OTU1ODMuMjg2MTA4LCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.Vok49nElBsNP67ZUocf1PpvpCOS5Kl-lz4k4FU29kwdwXeIKw5zBTP9aahDfkMARUik_aAS7Yr2UXsY-n1LtW5pkqXdTsJzol60EE9b5uCct3Wzyu5V4BEOcxgq0-bKmOBZjdI-tor1iwgGHk2p_tZneo50JcHJcO74b8eH3_2oW_jXKNdUNffMuHcqDo5dxOk2a5cwWZ0V7iutpCVDZsxCR8ro8HgqrjlwxjDTDT2XA8AxdnPjLq17aDWKH1FOtse5xUE-vOULA-W9kNTG3Al-IdrQLkDJEGmIhk8kjdmWsLvPKuTpFogNJI106PsqPUCj9jwJFAkdKvjphPrW8AC6GpiEo__SsGDqBRoMp4v65xzzFDRMc7HN-ajJANEEOdWOjjVDFAlLdcNwCRGVU4nteE0bIsFQqfdofI9UuQ5mK8bWZUHE4LkYu5QHJvcHqQSTaT07KhDcC6U9N71CE_2Cc-adfhOhAIHXiuamV33fnq3um0mgZqjG0Fk0CajULPbmZRFizTRXi3DFzBMjkTYGAgjLkcmex-7sGTamxyvgGeDKJi7O6yBt91g1GYyqbPleBwK-IXsvz59Gg6Y8dad9SW5duBM7LxGHU2rFxy_aXq5z7R33ASX13uhcQMdX8JzRLVBVyTiY_R9i_gTWdns0Kcu6S7_VLCcQS1L8VbhA"
+    }
+}
+3. POST /api/logout - Logout the user 
+Request body:None
+Response:
+{
+    "success": true,
+    "data": [],
+     "message": "Logout successful"
+}
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+CRUD Endpoints
+GET /api/user - List all users
+Response:
+{
+    "success": true,
+    "message": "All users",
+    "data": [
+        {
+            "id": 1,
+            "email": "lvidya66@gmail.com",
+            "email_verified_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "first_name": "Vidya",
+            "last_name": "l"
+        },
+    ]
+}
+GET /api/users/{id} - Get a specific user by ID
+Response:
+{
+    "success": true,
+    "message": "User detail",
+    "data": {
+        "id": 3,
+        "email": "milan51@example.com",
+        "email_verified_at": "2025-03-08T19:28:47.000000Z",
+        "created_at": "2025-03-08T19:28:47.000000Z",
+        "updated_at": "2025-03-08T19:28:47.000000Z",
+        "first_name": "Demond",
+        "last_name": "Durgan"
+    }
+}
 
-## Laravel Sponsors
+# Attribute Endpoints
+1. POST /api/attribute - Create new attribute
+Request body:
+{
+  "name": "end_date",
+  "type": "date"
+}
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Response:
+{
+  "success": true,
+  "message": "Attribute created successfully",
+  "data": {
+      "name": "end_date",
+      "type": "date",
+      "updated_at": "2025-03-08T18:47:45.000000Z",
+      "created_at": "2025-03-08T18:47:45.000000Z",
+      "id": 7
+  }
+}
 
-### Premium Partners
+2. PUT /api/attribute/:attributeId - Update attribute
+Request body:
+{
+  "name": "end_date",
+  "type": "date"
+}
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+Response:
+{
+  "success": true,
+  "message": "Attribute created successfully",
+  "data": {
+      "name": "end_date",
+      "type": "date",
+      "updated_at": "2025-03-08T18:47:45.000000Z",
+      "created_at": "2025-03-08T18:47:45.000000Z",
+      "id": 7
+  }
+}
 
-## Contributing
+3. GET /api/attribute - List all attributes
+Response:
+{
+  "success": true,
+  "message": "Attributes listed successfully",
+  "data": [
+      {
+          "id": 4,
+          "name": "start_date",
+          "type": "date",
+          "created_at": "2025-03-08T07:07:09.000000Z",
+          "updated_at": "2025-03-08T07:27:53.000000Z"
+      },
+  ]
+}
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+4. GET /api/attribute/:attributeId - Get attribute detail
+Response:
+{
+  "success": true,
+  "message": "Attribute detail listed successfully",
+  "data": [
+      {
+          "id": 4,
+          "name": "start_date",
+          "type": "date",
+          "created_at": "2025-03-08T07:07:09.000000Z",
+          "updated_at": "2025-03-08T07:27:53.000000Z"
+      },
+  ]
+}
 
-## Code of Conduct
+5. DELETE /api/attribute/:attributeId - Delete an attribute
+Response:
+{
+  "success": true,
+  "message": "Attribute deleted successfully",
+  "data": []
+}
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# Project Endpoints
+Pass authorization token in all endpoints
+1. POST /api/project - Create new project
+Request body:
+{
+  "name": "Laravel test",
+  "project_attributes": [
+      {
+          "attribute_id": 4,
+          "value":"02-02-2025"
+      },
+      {
+          "attribute_id": 6,
+          "value":"IT"
+      },
+      {
+          "attribute_id": 5,
+          "value":"basecamp"
+      }
+  ]
+}
 
-## Security Vulnerabilities
+Response:
+{
+  "success": true,
+  "message": "Project created successfully",
+  "data": {
+      "name": "Laravel test",
+      "status": "pending",
+      "updated_at": "2025-03-08T18:48:58.000000Z",
+      "created_at": "2025-03-08T18:48:58.000000Z",
+      "id": 26
+  }
+}
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+2. PUT /api/project/:projectid - Update project
+Request body:
+{
+  "name": "vidya",
+  "project_attributes": [
+      {
+          "attribute_id": 4,
+          "value":"2-03-2025"
+      }
+  ]
+}
 
-## License
+Response:
+{
+  "success": true,
+  "message": "Project updated successfully",
+  "data": {
+      "id": 1,
+      "name": "vidya",
+      "status": "pending",
+      "created_at": "2025-03-08T19:28:47.000000Z",
+      "updated_at": "2025-03-09T12:19:13.000000Z"
+  }
+}
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
->>>>>>> master
+3. GET /api/project?filters[start_date]>IT&filters[name]=Vidya&filters[status]=pending - List projects with filtering
+Response:
+{
+  "success": true,
+  "message": "Projects listed successfully",
+  "data": [
+      {
+          "id": 22,
+          "name": "vidya",
+          "status": "pending",
+          "created_at": "2025-03-08T09:28:36.000000Z",
+          "updated_at": "2025-03-08T09:28:36.000000Z",
+          "dynamic_attributes": [
+              {
+                  "id": 16,
+                  "attribute_id": 4,
+                  "entity_id": 22,
+                  "value": "2025-02-02",
+                  "created_at": "2025-03-08T09:28:36.000000Z",
+                  "updated_at": "2025-03-08T09:28:36.000000Z"
+              },
+              {
+                  "id": 17,
+                  "attribute_id": 6,
+                  "entity_id": 22,
+                  "value": "IT",
+                  "created_at": "2025-03-08T09:28:36.000000Z",
+                  "updated_at": "2025-03-08T09:28:36.000000Z"
+              },
+              {
+                  "id": 18,
+                  "attribute_id": 5,
+                  "entity_id": 22,
+                  "value": "basecamp",
+                  "created_at": "2025-03-08T09:28:36.000000Z",
+                  "updated_at": "2025-03-08T09:28:36.000000Z"
+              }
+          ]
+      },
+    ]
+}
+
+4. GET /api/project/:projectid - Get project detail
+Response:
+{
+  "success": true,
+  "message": "Project details",
+  "data": {
+      "id": 1,
+      "name": "vidya",
+      "status": "pending",
+      "created_at": "2025-03-07T17:54:33.000000Z",
+      "updated_at": "2025-03-07T17:54:33.000000Z",
+      "dynamic_attributes": [
+          {
+              "id": 12,
+              "attribute_id": 4,
+              "entity_id": 1,
+              "value": "2-03-2025",
+              "created_at": "2025-03-08T07:47:38.000000Z",
+              "updated_at": "2025-03-08T07:47:38.000000Z",
+              "attribute": {
+                  "id": 4,
+                  "name": "start_date",
+                  "type": "date",
+                  "created_at": "2025-03-08T07:07:09.000000Z",
+                  "updated_at": "2025-03-08T07:27:53.000000Z"
+              }
+          }
+      ]
+  }
+}
+
+5. DELETE /api/project/:projectid - Delete project
+Response:
+{
+  "success": true,
+  "message": "Project deleted successfully",
+  "data": []
+}
+
+# Timesheet Endpoints
+Pass authorization token in all endpoints
+1. POST /api/timesheet - Create new timesheet
+Request body:
+{
+  "project_id": 4,
+  "hours": 3,
+  "date":"2020-04-05",
+  "task_name": "Test"
+}
+
+Response:
+{
+  "success": true,
+  "message": "Timesheet created successfully",
+  "data": {
+      "user_id": 1,
+      "project_id": 4,
+      "hours": 3,
+      "date": "2020-04-05",
+      "task_name": "Test",
+      "updated_at": "2025-03-08T18:35:54.000000Z",
+      "created_at": "2025-03-08T18:35:54.000000Z",
+      "id": 3
+  }
+}
+
+2. PUT /api/timesheet/:timesheetid - Update timesheet
+Request body:
+{
+  "hours": 3,
+  "date":"2020-04-05",
+  "task_name": "Test11"
+}
+
+Response:
+{
+  "success": true,
+  "message": "Timesheet updated successfully",
+  "data": {
+      "id": 1,
+      "user_id": 1,
+      "project_id": 4,
+      "task_name": "Test11",
+      "date": "2020-04-05",
+      "hours": 3,
+      "created_at": "2025-03-08T18:35:46.000000Z",
+      "updated_at": "2025-03-08T18:38:24.000000Z"
+  }
+}
+
+3. GET /api/timesheet - List timesheets of current logged in user
+Response:
+{
+  "success": true,
+  "message": "Timesheet listed successfully",
+  "data": [
+      {
+          "id": 1,
+          "user_id": 1,
+          "project_id": 4,
+          "task_name": "Test11",
+          "date": "2020-04-05",
+          "hours": 3,
+          "created_at": "2025-03-08T18:35:46.000000Z",
+          "updated_at": "2025-03-08T18:38:24.000000Z"
+      },
+  ]
+}
+
+4. GET /api/timesheet/:timesheetid - Get timesheet detail
+Response:
+{
+  "success": true,
+  "message": "Timesheet detail listed successfully",
+  "data": {
+      "id": 1,
+      "user_id": 1,
+      "project_id": 4,
+      "task_name": "Test11",
+      "date": "2020-04-05",
+      "hours": 3,
+      "created_at": "2025-03-08T18:35:46.000000Z",
+      "updated_at": "2025-03-08T18:38:24.000000Z"
+  }
+}
+
+5. DELETE /api/timesheet/:timesheetid - Delete timsheet
+Response:
+{
+  "success": true,
+  "message": "Timesheet deleted successfully",
+  "data": []
+}
+
+# Test credentials 
+For API Testing, please use the the following credentials:
+Email: lvidya66@gmail.com
+Password: password123

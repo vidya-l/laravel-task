@@ -178,7 +178,7 @@ class ProjectController extends Controller
     {
         try {
             $project->delete();
-            return ApiResponse::success('project deleted successfully');
+            return ApiResponse::success([], 'project deleted successfully');
         } catch (\Exception $e) {
             return ApiResponse::error('An error occurred during project: ' . $e->getMessage(), 500);
         }
